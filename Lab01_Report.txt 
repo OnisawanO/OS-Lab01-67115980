@@ -1,7 +1,0 @@
-1.  this hardware baseline is contain with:
-    OS Name: Linux 6.8.0-1052-azure
-    Number of CPU Cores: 2
-    Total RAM: 7.76 GB
-2.  the CPU didn't utilize all core 100%. they are just swap get 100% and then the other one lose. and the loop of racing is continue by.
-3.  because we must to know all resources we have in ours system so we can manage and utilize them properly.
-    if the dataset of 500,000 image run in only 1 core cpu without know the whole capable of the cpu, we could waste the time of compute that we can save 
