@@ -1,0 +1,3 @@
+runner_seq      :9.59
+runner_thread   :9.69
+runner_process  :8.51
