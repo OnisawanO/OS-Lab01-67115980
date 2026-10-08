@@ -1,15 +1,17 @@
+======================================================
+COE67-222 Operating Systems - Lab 02 Report
+Name: Ilham Khamseekhiew
+Student ID: 67115980
+======================================================
+
 1. Execution Time Comparison:
-- Sequential Time: [9.59] seconds
-- Multithreading Time: [9.60] seconds
-- Multiprocessing Time: [8.51] seconds
+- Sequential Time: 9.59 seconds
+- Multithreading Time: 9.60 seconds
+- Multiprocessing Time: 8.51 seconds
 
 2. System Observation (htop):
-Explain the difference in CPU core utilization (in htop) when running the Multithreading script vs. the Multiprocessing script.
-    :Multithreading script utilize cpu only one core on the time. the other core is on idle for waiting next process.
-    :Multiprocessing run simutinuosly on dual core with 100% cpu utilization 
+multithreading did not use both CPU cores fully at the same time for this CPU-bound work. only one thread could run Python code at a time, and the work could move between cores. multiprocessing used both cores at the same time, so the CPU utilization was higher.
 
 3. Analysis (The GIL):
-Based on your results, why did Multithreading fail to make the code run faster? Why is Multiprocessing a better choice for CPU-bound tasks (like Machine Learning data augmentation) in Python?
-    :Multithreading in python can't perform perfectly because the GIL(Global Intepreter Lock) inside the python architecture. 
-    This prevent the os to run only one thread in the period of time. When compare with Multiprocessing that slice the one big process in to tiny small process,
-    each process have their own interpreter. So the process can run individually on each core without python GILL bottleneck problem. 
+because the GIL lets only one thread execute Python bytecode at a time in this interpreter. adding threads did not make this CPU-bound work faster, and the thread overhead made the time almost the same as sequential.
+multiprocessing uses separate processes with their own interpreters and GILs. so the OS can run them on different cores at the same time. this helps CPU-bound work like image augmentation, but starting processes and sending data between them also takes time.

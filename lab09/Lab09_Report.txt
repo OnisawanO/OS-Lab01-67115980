@@ -1,0 +1,22 @@
+======================================================
+COE67-222 Operating Systems - Lab 09 Report
+Name: Ilham Khamseekhiew
+Student ID: 67115980
+======================================================
+
+1. Inodes and Metadata:
+In the `inode_inspector.py` script, we printed the "Inode Number". If you rename the file using the Linux `mv` command, will the Inode Number change? Why or why not? (Hint: Think about how the OS separates the file name from the actual data).
+
+the inode number stays the same if we rename or move the file inside the same filesystem. the directory stores the name and points to the inode, so changing the name does not change the actual file object. moving to a different filesystem usually copies the file and removes the old one, so the inode can change.
+
+2. POSIX Permissions:
+If you want to set a file's permission so that the Owner has Read/Write/Execute (7), the Group has Read/Execute (5), and Others have absolutely no access (0), what would be the 3-digit octal number you pass into `os.chmod()`?
+
+the octal permission is 750. in Python we write os.chmod(filename, 0o750), because the 0o prefix means octal. the owner gets read, write, and execute, the group gets read and execute, and others get no access.
+
+3. The AI Context:
+Why is it safer to rely on Operating System file permissions (like `os.chmod(0o444)`) to protect production model weights rather than relying solely on application-level logic or Python try-except blocks?
+
+because the OS checks file permissions when a process tries to open or write the file. 0o444 gives read permission but no write permission for ordinary access, so an application bug cannot simply write to the weights. a try-except block only handles an error after an operation fails; it does not stop another program from writing.
+the file owner can change permissions and privileged users can bypass them, so we should also run the application with limited privileges and protect the directory containing the weights.
+

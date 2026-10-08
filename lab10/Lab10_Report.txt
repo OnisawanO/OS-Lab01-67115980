@@ -1,0 +1,19 @@
+======================================================
+COE67-222 Operating Systems - Lab 10 Report
+Name: Ilham Khamseekhiew
+Student ID: 67115980
+======================================================
+
+1. Resource Management (from ultimate_cluster_os.py):
+the cluster simulates 64 GB RAM and 4 GPUs. each job requests RAM before it takes GPU locks. ram_lock protects the available RAM counter, so two workers do not allocate the same remaining RAM at the same time. if there is not enough RAM, the job waits and checks again. this keeps the simulated allocation within the RAM budget.
+
+2. Deadlock Avoidance:
+the code sorts the requested GPU numbers before taking their locks. even if a job requests [2, 1, 0], it acquires 0, 1, and 2 in that order. all jobs follow the same order, so they cannot form a circular wait between GPU locks. when the job finishes, it releases the GPUs and returns its RAM.
+
+3. Concurrent Workloads (from the code):
+Workload A needs 40 GB RAM and GPUs 0, 1, and 2. Workload B needs 16 GB and no GPU, so it can run alongside A. Workload C needs 2 GB and GPU 3, so it can also run while those resources are free. together they request 58 GB, which fits inside the 64 GB budget.
+Workload D requests secret_keys.txt, which is not created by the script. the path check rejects this job if that file is missing, before allocating RAM or GPUs.
+
+4. Analysis:
+because different jobs need different resources, the system can let them work together instead of making every job wait for the biggest model. the queue sends jobs to worker threads, while the locks manage shared resources. this scheduler does not use Round Robin or guarantee fairness.
+os.path.exists only checks whether a path exists. it does not prove that the dataset can be read, so real file access still needs permission checks and error handling. the RAM and GPUs here are simulated counters and locks, not actual hardware reservations.

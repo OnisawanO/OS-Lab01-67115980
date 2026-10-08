@@ -1,0 +1,28 @@
+======================================================
+COE67-222 Operating Systems - Lab 03 Report
+Name: Ilham Khamseekhiew
+Student ID: 67115980
+======================================================
+
+1. The Race Condition (Phase 2):
+In the `race_condition.py` script, what exactly causes the final weight to be less than the expected value? Explain the role of the OS Scheduler in this error.
+
+because updating the weight has separate read, change, and write steps. two threads can read the same old weight, then one writes over the other update. the OS scheduler can switch threads between these steps, so some updates are lost and the final weight is too small.
+
+2. Mutex vs. Semaphore (Phase 3):
+In `producer_consumer.py`:
+- What is the specific job of the `mutex`?
+- What is the specific job of the `empty` and `full` semaphores? 
+(Why can't we just use a Mutex for everything?)
+
+the mutex lets only one thread change the shared buffer at a time, so the producer and consumer do not change it together.
+empty counts free spaces, and full counts items ready to consume. a producer waits when the buffer is full, and a consumer waits when it is empty. a mutex only protects access. it does not count spaces or items, so we need the semaphores too.
+
+3. Deadlock Awareness:
+In the Producer function, we wrote:
+    empty.acquire()
+    mutex.acquire()
+What would happen if we swapped these two lines? (mutex first, then empty). Imagine the buffer is completely full. Explain the potential OS problem.
+
+if the producer takes the mutex first while the buffer is full, it waits for empty but still holds the mutex. the consumer needs that mutex to remove an item and make space. both keep waiting for each other, so this causes a deadlock.
+

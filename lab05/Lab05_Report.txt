@@ -1,0 +1,22 @@
+======================================================
+COE67-222 Operating Systems - Lab 05 Report
+Name: Ilham Khamseekhiew
+Student ID: 67115980
+======================================================
+1. Address Translation Math (Phase 3):
+Assume an OS has a PAGE_SIZE of 4096 bytes. 
+If an AI model requests data at Logical Address 10000, calculate:
+- The Page Number: 2
+- The Offset: 1808 bytes
+(Show your calculation steps briefly).
+
+the page number is 2, because 10000 // 4096 = 2.
+the offset is 1808 bytes, because 10000 - (2 * 4096) = 1808.
+so the logical address is in Page 2, at byte 1808 inside that page.
+
+2. Physical Memory Fragmentation:
+In our `page_table_sim.py`, Page 0 was stored in Frame 12, and Page 1 was in Frame 45.
+
+Page 0 and Page 1 do not need to be next to each other in physical RAM. the page table maps each logical page to its frame, so the model can still use continuous logical addresses.
+because all frames have the same size, the OS can use separate free frames without needing one large continuous space. this avoids external fragmentation for page allocation, but an unused part of the last page can still cause internal fragmentation.
+
